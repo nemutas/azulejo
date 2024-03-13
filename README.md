@@ -1,7 +1,8 @@
 # About
 
-inspired by https://newfolk.jp/careers/ . original site created by https://baqemono.jp/ .
+inspired by https://robert.leitl.dev/artifacts/azulejos/#/object/cylinder .
 
 https://nemutas.github.io/azulejo/
 
-<img src='https://github.com/nemutas/azulejo/assets/46724121/a0d871c3-2b28-4614-90fe-edfe304cc903' alt='' width='700' />
+<img src='https://github.com/nemutas/azulejo/assets/46724121/0f1c4cb3-3bf6-4e4d-9547-c66412fc0cb7' alt='' width='700' />
+
