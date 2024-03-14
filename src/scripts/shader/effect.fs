@@ -67,7 +67,7 @@ void main() {
   if (h.y < 0.6) ruv.y = 1.0 - ruv.y;
   
   vec3 pattern = texture(uMap,  mapOffset + ruv * uMapPx).rgb;
-  if(avg == 1.0) pattern = mix(pattern, vec3(1), 0.6);
+  if(0.95 < avg) pattern = mix(pattern, vec3(1), 0.6); // background
   else pattern = mix(pattern, vec3(1), 0.15);
 
   // border line
