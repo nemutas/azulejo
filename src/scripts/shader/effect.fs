@@ -24,11 +24,12 @@ void main() {
   vec2 asp = uResolution / min(uResolution.x, uResolution.y);
 
   vec2 quv = uv * asp, fuv, iuv;
-  float i = 0.0, avg = 1.0;
+  float i, avg = 1.0;
   for(; i < 6.0; i++) {
     fuv = fract(quv);
     iuv = floor(quv) / pow(2.0, i) / asp;
     if (2.0 <= i) {
+      // 代表点(4点)の輝度の分散を求める
       vec2 px = 1.0 / pow(2.0, i) / asp;
       px *= 0.5;
       vec3 c1 = texture(uSource, iuv + px * vec2(0, 0) + px * 0.5).rgb;
@@ -44,31 +45,30 @@ void main() {
       );
 
       avg = dot(vec4(1), g) / 4.0;
-
-      vec4 d2 = vec4(
-        (g.x - avg) * (g.x - avg),
-        (g.y - avg) * (g.y - avg),
-        (g.z - avg) * (g.z - avg),
-        (g.w - avg) * (g.w - avg)
-      );
+      vec4 d = g - avg;
 
       // 分散
-      float disp = dot(vec4(1), d2) / 4.0;
+      float disp = dot(vec4(1), d * d) / 4.0;
 
       if (disp < 0.001) break;
     }
     quv *= 2.0;
   }
 
-  vec3 h = hash(vec3(iuv, 0.1));
+  vec3 h = hash(vec3(iuv, i + 0.1));
 
   vec2 mapOffset;
   mapOffset.x = floor(avg / uMapPx.x) * uMapPx.x - uMapPx.x;
   mapOffset.y = floor(h.x / uMapPx.y) * uMapPx.y;
 
-  vec2 puv = mapOffset + fuv * uMapPx;
-  vec3 pattern = texture(uMap, puv).rgb * 1.05;
-  if(avg == 1.0) pattern = mix(pattern, vec3(1), 0.5);
+  // flip
+  vec2 ruv = fuv;
+  if (h.y < 0.3) ruv.x = 1.0 - ruv.x;
+  if (h.y < 0.6) ruv.y = 1.0 - ruv.y;
+  
+  vec3 pattern = texture(uMap,  mapOffset + ruv * uMapPx).rgb;
+  if(avg == 1.0) pattern = mix(pattern, vec3(1), 0.6);
+  else pattern = mix(pattern, vec3(1), 0.15);
 
   // border line
   vec2 auv = abs(fuv * 2.0 - 1.0);
