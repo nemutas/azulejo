@@ -42,8 +42,6 @@ export class Canvas extends Three {
   }
 
   private init() {
-    this.camera.position.set(0.85, 0.73, 1.27)
-
     this.mainScene.background = new THREE.Color('#fff')
 
     this.controls.enableDamping = true
@@ -61,8 +59,18 @@ export class Canvas extends Three {
   }
 
   private createModel() {
-    const geometry = new THREE.CylinderGeometry(0.3, 0.3, 1)
-    geometry.rotateX(Math.PI * 0.5)
+    let geometry!: THREE.BufferGeometry
+    const r = Math.random()
+    if (r < 0.5) {
+      // cylinder
+      this.camera.position.set(0.76, 0.93, 0.92)
+      geometry = new THREE.CylinderGeometry(0.3, 0.3, 1)
+      geometry.rotateX(Math.PI * 0.5)
+    } else {
+      // torus
+      this.camera.position.set(0.61, -0.53, 1.1)
+      geometry = new THREE.TorusGeometry(0.3, 0.15, 48, 96)
+    }
     const material = new THREE.MeshStandardMaterial({ color: '#fff', emissive: '#777' })
     const mesh = new THREE.Mesh(geometry, material)
     this.mainScene.add(mesh)

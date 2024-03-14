@@ -76,4 +76,5 @@ void main() {
   float b = 1.0 - step(auv.x, t) * step(auv.y, t);
 
   outColor = vec4(sat(pattern + b), 1.0);
+  // outColor = texture(uSource, uv);
 }
