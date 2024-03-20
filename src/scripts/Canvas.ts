@@ -104,8 +104,6 @@ export class Canvas extends Three {
     this.updateTime()
     this.controls.update()
 
-    console.log(this.camera.position)
-
     this.renderer.setRenderTarget(this.mainRT)
     this.renderer.render(this.mainScene, this.camera)
 
